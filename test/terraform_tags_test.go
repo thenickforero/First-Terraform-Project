@@ -1,6 +1,8 @@
 package test
 
 import (
+	"fmt"
+	"os"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -8,7 +10,6 @@ import (
 )
 
 func TestTerraformAwsTags(t *testing.T) {
-
 	// Construct the terraform options with default retryable errors
 	// to handle the most common retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
@@ -41,4 +42,10 @@ func TestTerraformAwsTags(t *testing.T) {
 
 	assert.Equal(t, ec2Tags, expectedTags)
 	assert.Equal(t, s3BucketTags, expectedTags)
+
+	err := os.Remove("./plan.out")
+
+	if err != nil {
+		fmt.Println(err)
+	}
 }
